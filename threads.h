@@ -1,0 +1,101 @@
+// threads.h
+// Date Created: 2023-07-26
+// Date Updated: 2023-07-26
+// Threads
+
+#ifndef THREADS_H_
+#define THREADS_H_
+
+/************************************Includes***************************************/
+
+#include "./G8RTOS/G8RTOS.h"
+#include <inc/hw_memmap.h>
+#include <driverlib/sysctl.h>
+#include <driverlib/gpio.h>
+#include <driverlib/pin_map.h>
+#include <driverlib/uart.h>
+
+/************************************Includes***************************************/
+
+/*************************************Defines***************************************/
+
+// FIFOs
+#define BUTTONS_FIFO        0
+#define JOYSTICK_FIFO       1
+#define FREQ1_FIFO          2
+#define FREQ2_FIFO          3
+#define DISPLAY_FIFO        4
+
+// Audio
+#define BLOCK_SIZE          64
+#define BPM_MIN             60
+#define BPM_MAX             200
+#define BPM_DEFAULT         120
+
+// Buttons
+#define BTN_SW1              0x02
+#define BTN_SW2              0x04
+#define BTN_SW3              0x08
+#define BTN_SW4              0x10
+
+// Volume controls
+#define VOLUME_MAX           4095         // 12-bit DAC
+#define JOY_DEADZONE         300          // ignore small joystick noise around center
+#define VOLUME_STEP_DIV      16           // full push = 2048/16 = 128 volume steps per update
+
+
+/*************************************Defines***************************************/
+
+/***********************************Semaphores**************************************/
+
+semaphore_t sem_I2CA;
+semaphore_t sem_SPIA;
+semaphore_t sem_Buttons;
+semaphore_t sem_UART;
+semaphore_t sem_Mix;
+
+/***********************************Semaphores**************************************/
+
+/***********************************Structures**************************************/
+// Pattern: one 16 bit number per track, bit n = step n
+typedef struct {
+    uint16_t steps[NUM_TRACKS];
+    uint16_t accent[NUM_TRACKS];
+} Pattern;
+
+// Sequencer clock: counts samples, no jitter 
+typedef struct {
+    volatile bool playing;
+    volatile uint16_t bpm;
+    uint32_t sampleCount;
+    uint8_t step;
+} Sequencer;
+
+/***********************************Structures**************************************/
+
+
+/*******************************Background Threads**********************************/
+
+void Idle_Thread(void);
+void Mix_Thread(void);
+void UI_Thread(void);
+void Read_Buttons(void);
+
+/*******************************Background Threads**********************************/
+
+/********************************Periodic Threads***********************************/
+
+void Update_Volume(void);
+
+/********************************Periodic Threads***********************************/
+
+/*******************************Aperiodic Threads***********************************/
+
+void Button_Handler(void);
+void Sample_Handler(void);
+
+/*******************************Aperiodic Threads***********************************/
+
+
+#endif /* THREADS_H_ */
+
