@@ -13,6 +13,7 @@ typedef struct {
     bool active;
     uint32_t phase;
     uint32_t phaseBase;
+    uint32_t phaseSweep;
     uint8_t pitchShift;
     uint32_t amp;
     uint8_t ampShift;

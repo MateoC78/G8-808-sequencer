@@ -1,7 +1,4 @@
 // threads.h
-// Date Created: 2023-07-26
-// Date Updated: 2023-07-26
-// Threads
 
 #ifndef THREADS_H_
 #define THREADS_H_
@@ -9,6 +6,7 @@
 /************************************Includes***************************************/
 
 #include "./G8RTOS/G8RTOS.h"
+#include "./G8-808/synth.h"
 #include <inc/hw_memmap.h>
 #include <driverlib/sysctl.h>
 #include <driverlib/gpio.h>
@@ -37,12 +35,6 @@
 #define BTN_SW2              0x04
 #define BTN_SW3              0x08
 #define BTN_SW4              0x10
-
-// Volume controls
-#define VOLUME_MAX           4095         // 12-bit DAC
-#define JOY_DEADZONE         300          // ignore small joystick noise around center
-#define VOLUME_STEP_DIV      16           // full push = 2048/16 = 128 volume steps per update
-
 
 /*************************************Defines***************************************/
 
@@ -84,8 +76,6 @@ void Read_Buttons(void);
 /*******************************Background Threads**********************************/
 
 /********************************Periodic Threads***********************************/
-
-void Update_Volume(void);
 
 /********************************Periodic Threads***********************************/
 
