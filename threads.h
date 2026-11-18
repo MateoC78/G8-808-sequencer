@@ -29,6 +29,9 @@
 #define BPM_MIN             60
 #define BPM_MAX             200
 #define BPM_DEFAULT         120
+#define SAMPLE_RATE_HZ      16000
+#define DAC_MID             2048
+#define MASTER_VOLUME       160
 
 // Buttons
 #define BTN_SW1              0x02
