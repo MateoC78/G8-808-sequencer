@@ -7,6 +7,7 @@
 #include "./threads.h"
 
 #include "./MultimodDrivers/multimod.h"
+#include "./G8-808/ui.h"
 
 #include "inc/hw_memmap.h"
 #include "driverlib/timer.h"
@@ -82,9 +83,39 @@ void Mix_Thread(void) {
 }
 
 void UI_Thread(void) {
+    uint32_t msg;
+    uint32_t shownUnderruns = 0;
+    uint8_t t;
+
+    // initail screen draw
+    G8RTOS_WaitSemaphore(&sem_SPIA);
+    UI_DrawScreen();
+    for (t = 0; t < NUM_TRACKS; t++) UI_DrawTrack(t, pattern.steps[t], pattern.accent[t]);
+    UI_DrawStatus(seq.playing, seq.bpm, underruns);
+    G8RTOS_SignalSemaphore(&sem_SPIA);
 
     while(1) {
+        msg = (uint32_t)G8RTOS_ReadFIFO(UI_FIFO);
 
+        G8RTOS_WaitSemaphore(&sem_SPIA);
+        // draw based on message type
+        switch (UI_MSG_TYPE(msg)) {
+            case UI_STEP:
+                UI_DrawPlayhead((int8_t)UI_MSG_VALUE(msg));
+                break;
+            case UI_STATUS:
+                UI_DrawStatus(seq.playing, seq.bpm, underruns);
+                if (!seq.playing) UI_DrawPlayhead(-1);
+                break;
+            case UI_PATTERN:
+                break;
+        }
+
+        if (underruns != shownUnderruns) {
+            shownUnderruns = underruns;
+            UI_DrawStatus(seq.playing, seq.bpm, shownUnderruns);
+        }
+        G8RTOS_SignalSemaphore(&sem_SPIA);
     }
 }
 
