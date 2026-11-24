@@ -1,7 +1,7 @@
 
 
-#include "ui.h"
-#include "synth.h"
+#include "../ui.h"
+#include "../synth.h"
 #include "./MultimodDrivers/multimod.h"
 
 
@@ -22,12 +22,22 @@ static const uint8_t font3x5[][5] = {
     {0,2,0,2,0},            // ':'
 };
 
+static uint8_t FontIndex(char c) {
+    if (c >= 'a' && c <= 'z') c -= 32;
+    if (c >= '0' && c <= '9') return 1 + (c - '0');
+    if (c >= 'A' && c <= 'Z') return 11 + (c - 'A');
+    if (c == '-') return 37;
+    if (c == ':') return 38;
+    return 0;
+}
+
 void UI_Rect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color) {
     if (x < 0) { w += x; x = 0; }                   // clip to the screen
     if (y < 0) { h += y; y = 0; }
     if (x + w > SCREEN_W) w = SCREEN_W - x;
     if (y + h > SCREEN_H) h = SCREEN_H - y;
     if (w <= 0 || h <= 0) return;
+    y = SCREEN_H - y - h;
     ST7789_DrawRectangle(x, y, w, h, color);
 }
 

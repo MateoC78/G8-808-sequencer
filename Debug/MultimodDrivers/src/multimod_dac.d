@@ -13,18 +13,19 @@ MultimodDrivers/src/multimod_dac.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-ar
 MultimodDrivers/src/multimod_dac.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/machine/_stdint.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/sys/_stdint.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdbool.h
-MultimodDrivers/src/multimod_dac.obj: ../MultimodDrivers/multimod_buttons.h
+MultimodDrivers/src/multimod_dac.obj: ../MultimodDrivers/multimod_PCA9555.h
+MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/inc/hw_memmap.h
+MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/inc/hw_gpio.h
+MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/i2c.h
+MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/gpio.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/math.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/_defs.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/machine/_limits.h
-MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/inc/hw_memmap.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/inc/hw_types.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/inc/hw_ints.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/interrupt.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/sysctl.h
-MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/gpio.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/pin_map.h
-MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/i2c.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ssi.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/timer.h
 MultimodDrivers/src/multimod_dac.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/rom.h
@@ -56,15 +57,21 @@ C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/sys/_stdint.h:
 
 C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdbool.h:
 
-../MultimodDrivers/multimod_buttons.h:
+../MultimodDrivers/multimod_PCA9555.h:
+
+C:/ti/TivaWare_C_Series-2.2.0.295/inc/hw_memmap.h:
+
+C:/ti/TivaWare_C_Series-2.2.0.295/inc/hw_gpio.h:
+
+C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/i2c.h:
+
+C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/gpio.h:
 
 C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/math.h:
 
 C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/_defs.h:
 
 C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/machine/_limits.h:
-
-C:/ti/TivaWare_C_Series-2.2.0.295/inc/hw_memmap.h:
 
 C:/ti/TivaWare_C_Series-2.2.0.295/inc/hw_types.h:
 
@@ -74,11 +81,7 @@ C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/interrupt.h:
 
 C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/sysctl.h:
 
-C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/gpio.h:
-
 C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/pin_map.h:
-
-C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/i2c.h:
 
 C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ssi.h:
 

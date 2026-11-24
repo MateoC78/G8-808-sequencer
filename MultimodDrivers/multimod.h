@@ -12,6 +12,8 @@
 #include "multimod_ST7789.h"
 #include "multimod_spi.h"
 #include "multimod_PCA9956B.h"
+#include "multimod_dac.h"
+#include "multimod_PCA9555.h"
 
 
 static void Multimod_Init() {

@@ -62,7 +62,7 @@ void I2C_Init(uint32_t mod) {
 // Param uint8_t "addr": address to device
 // Param uint8_t "byte": byte to send
 // Return: void
-void I2C_WriteSingle(uint32_t mod, uint8_t addr, uint8_t byte, uint8_t stop) {
+void I2C_WriteSingle(uint32_t mod, uint8_t addr, uint8_t byte) {
     // which module and where to?
     I2CMasterSlaveAddrSet(mod, addr, false);
 
@@ -83,7 +83,7 @@ void I2C_WriteSingle(uint32_t mod, uint8_t addr, uint8_t byte, uint8_t stop) {
 // Param uint32_t "mod": base address of module
 // Param uint8_t "addr": address to device
 // Return: uint8_t
-uint8_t I2C_ReadSingle(uint32_t mod, uint8_t addr, uint8_t stop) {
+uint8_t I2C_ReadSingle(uint32_t mod, uint8_t addr) {
     // which module and where to? 
     I2CMasterSlaveAddrSet(mod, addr, true);
 

@@ -6,7 +6,7 @@
 /************************************Includes***************************************/
 
 #include "../multimod_dac.h"
-#include "../multimod_buttons.h"
+#include "../multimod_PCA9555.h"
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -34,7 +34,7 @@
 // MutimodDAC_Init
 // Initializes ports & modules for the DAC
 // Return: void
-void MutimodDAC_Init(void) {
+void MultimodDAC_Init(void) {
     SysCtlPeripheralEnable(SYSCTL_PERIPH_I2C0);
     GPIOPinConfigure(GPIO_PB2_I2C0SCL);
     GPIOPinConfigure(GPIO_PB3_I2C0SDA);
@@ -78,7 +78,7 @@ void MutimodDAC_Init(void) {
 // MutimodDAC_Write
 // Performs a write to a DAC register
 // Return: void
-void MutimodDAC_Write(uint32_t reg_address, uint32_t data) {
+void MultimodDAC_Write(uint32_t reg_address, uint32_t data) {
     uint32_t packet = ((reg_address << 19) & 0x1F) | ((DAC_WRITE_CMD << 17) & 0x03) | ((data << 0) & 0xFFFF);
     GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1, 0);
 
@@ -94,7 +94,7 @@ void MutimodDAC_Write(uint32_t reg_address, uint32_t data) {
 // MutimodDAC_Read
 // Performs a read from a DAC register
 // Return: void
-uint32_t MutimodDAC_Read(uint32_t reg_address) {
+uint32_t MultimodDAC_Read(uint32_t reg_address) {
     uint32_t packet = ((reg_address << 19) & 0x1F) | ((DAC_READ_CMD << 17) & 0x03);
     uint32_t data;
 

@@ -8,6 +8,7 @@
 
 #include "./MultimodDrivers/multimod.h"
 #include "./G8-808/ui.h"
+#include "./G8-808/audio.h"
 
 #include "inc/hw_memmap.h"
 #include "driverlib/timer.h"
@@ -25,12 +26,31 @@ static volatile uint8_t playHalf = 0;
 static volatile uint8_t playIndex = 0;
 static volatile bool blockReady = true;
 
-
+static const uint16_t demoKick[] = {0x1111, 0x0509, 0x5191, 0x9249};
+static const uint16_t demoAccent[] = {0x0001, 0x0101, 0x0101, 0x0001};
+#define NUM_DEMOS (sizeof(demoKick) / sizeof(demoKick[0]))
 
 /*********************************Global Variables**********************************/
 
 /********************************Public Functions***********************************/
+void seq_init(void) {
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+		audioBuf[0][i] = DAC_MID;
+		audioBuf[1][i] = DAC_MID;
+	}
 
+	for (int i = 0; i < NUM_TRACKS; i++) {
+        pattern.steps[i] = 0;
+        pattern.accent[i] = 0;
+    }
+    pattern.steps[TRACK_KICK]  = demoKick[0];
+    pattern.accent[TRACK_KICK] = demoAccent[0];
+
+    seq.playing = true;
+    seq.bpm = BPM_DEFAULT;
+    seq.sampleCount = 0;
+    seq.step = 0;
+}
 
 /*************************************Threads***************************************/
 
@@ -40,13 +60,13 @@ void Idle_Thread(void) {
 
 void Mix_Thread(void) {
     bool wasPlaying = false;
-    uint8_t i, t;
+    uint8_t i, j;
 
     Synth_Init();
-    TimerEnable(TIMER1_BASE, TIMER_A);      // start 16 kHz interrupt
-    
+    Audio_Start();
+
     while (1) {
-        G8RTOS_WaitSemaphore(&sem_mix);     // a half just finished playing
+        G8RTOS_WaitSemaphore(&sem_Mix);     // a half just finished playing
 
         uint16_t *out = audioBuf[playHalf ^ 1];     // half that is not playing
         uint32_t samplesPerStep = (SAMPLE_RATE_HZ * 15) / seq.bpm;
@@ -62,10 +82,10 @@ void Mix_Thread(void) {
             if (playing) {
                 if (seq.sampleCount == 0) {
                     uint16_t bit = (uint16_t)(1u << seq.step);
-                    for (uint8_t j = 0; j < NUM_TRACKS; j++) {
+                    for (j = 0; j < NUM_TRACKS; j++) {
                         if (pattern.steps[j] & bit) Synth_Trigger(j, (pattern.accent[j] & bit) != 0);
-                    G8RTOS_WriteFIFO()  // update UI
                     }
+                    G8RTOS_WriteFIFO(UI_FIFO, UI_MSG(UI_STEP, seq.step));
                 }
                 if (++seq.sampleCount >= samplesPerStep) {
                     seq.sampleCount = 0;
@@ -73,7 +93,9 @@ void Mix_Thread(void) {
                 }
             }
             // mix, scale and clip voices to 12 bits
-            int32_t sample = DAC_MID + ((Synth_Next() * MASTER_VOLUME) >> 8);
+            static uint16_t testCount = 0;
+            int32_t sample = ((testCount++ >> 3) & 1) ? DAC_MID + 800 : DAC_MID - 800;
+            //int32_t sample = DAC_MID + ((Synth_Next() * MASTER_VOLUME) >> 8);
             if (sample < 0) sample = 0;
             if (sample > 4095) sample = 4095;
             out[i] = (uint16_t)sample;
@@ -87,7 +109,7 @@ void UI_Thread(void) {
     uint32_t shownUnderruns = 0;
     uint8_t t;
 
-    // initail screen draw
+    // initial screen draw
     G8RTOS_WaitSemaphore(&sem_SPIA);
     UI_DrawScreen();
     for (t = 0; t < NUM_TRACKS; t++) UI_DrawTrack(t, pattern.steps[t], pattern.accent[t]);
@@ -125,6 +147,7 @@ void Read_Buttons(void) {
     uint8_t buttons;
     uint8_t prev_buttons = 0;
     uint8_t pressed;
+    uint8_t demo = 0;
 
     while(1) {
 
@@ -143,17 +166,23 @@ void Read_Buttons(void) {
         if (pressed & BTN_SW1){
             // play 
             seq.playing = !seq.playing;
+            G8RTOS_WriteFIFO(UI_FIFO, UI_MSG(UI_STATUS, 0));
         }
-        if (pressed & BTN_SW2){
+        if ((pressed & BTN_SW2) && seq.bpm > BPM_MIN){
             // BPM down
             seq.bpm -= 5;
+            G8RTOS_WriteFIFO(UI_FIFO, UI_MSG(UI_STATUS, 0));
         }     
-        if (pressed & BTN_SW3){
+        if ((pressed & BTN_SW3) && seq.bpm < BPM_MAX){
             // BPM up
             seq.bpm += 5;
+            G8RTOS_WriteFIFO(UI_FIFO, UI_MSG(UI_STATUS, 0));
         }     
         if (pressed & BTN_SW4){
-            continue;
+            demo = (demo + 1) % NUM_DEMOS;
+            pattern.steps[TRACK_KICK] = demoKick[demo];
+            pattern.accent[TRACK_KICK] = demoAccent[demo];
+            G8RTOS_WriteFIFO(UI_FIFO, UI_MSG(UI_PATTERN, 0));
         }
 
         GPIOIntClear(GPIO_PORTE_BASE, GPIO_INT_PIN_4);
@@ -176,7 +205,7 @@ void Button_Handler() {
 void Sample_Handler() {
     TimerIntClear(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
 
-    MultimodDAC_Write(DAC_OUT_REG, audioBuf[playHalf][playIndex0]);
+    Audio_DACWrite(audioBuf[playHalf][playIndex]);
 
     if (++playIndex >= BLOCK_SIZE) {
         playIndex = 0;

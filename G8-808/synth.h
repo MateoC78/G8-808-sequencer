@@ -7,6 +7,17 @@
 #include <stdbool.h>
 
 #define NUM_TRACKS      6
+#define SAMPLE_RATE_HZ      16000
+
+
+enum {
+    TRACK_KICK = 0,
+    TRACK_SNARE,        // Milestone 2
+    TRACK_CHAT,         // closed hi-hat (Milestone 2)
+    TRACK_OHAT,         // open hi-hat   (Milestone 2)
+    TRACK_CLAP,         // Milestone 2
+    TRACK_TOM           // Milestone 2
+};
 
 // Voice: control parameters used to synthesize a 'drum' sound from sine wave
 typedef struct {

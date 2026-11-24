@@ -27,12 +27,11 @@
 #define BPM_MIN             60
 #define BPM_MAX             200
 #define BPM_DEFAULT         120
-#define SAMPLE_RATE_HZ      16000
 #define DAC_MID             2048
-#define MASTER_VOLUME       160
+#define MASTER_VOLUME       220
 
 // UI message macros
-#define UI_MSG(type, value) (((uint32_t)(type) >> 8) | (uint16_t)(value))
+#define UI_MSG(type, value) (((uint32_t)(type) << 8) | (uint16_t)(value))
 #define UI_MSG_VALUE(msg)   ((uint8_t)(msg))
 #define UI_MSG_TYPE(msg)    ((uint8_t)((msg) >> 8))     // gives message types seen below
 #define UI_STEP             1

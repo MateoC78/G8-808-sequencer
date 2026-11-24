@@ -1,7 +1,8 @@
 // synth source
 
 
-#include "synth.h"
+#include "../synth.h"
+#include "../audio.h"
 
 #define FREQ_TO_INC(hz)     ((uint32_t)(hz) * (uint32_t)(4294967296.0 / SAMPLE_RATE_HZ))
 
@@ -31,8 +32,7 @@ static const int16_t sineTable[256] = {
 static Voice voices[NUM_TRACKS];
 
 void Synth_Init(void) {
-    uint8_t i;
-    for (i = 0; i < NUM_TRACKS; i++) voices[i].active = false;
+    for (uint8_t i = 0; i < NUM_TRACKS; i++) voices[i].active = false;
 }
 
 void Synth_Trigger(uint8_t track, bool accent) {
@@ -41,11 +41,16 @@ void Synth_Trigger(uint8_t track, bool accent) {
     switch (track) {
         case TRACK_KICK:
             // sine wave starting at 170 Hz and falls to 50 Hz
-            v->phase = 0;
-            v->phaseBase = FREQ_TO_INC(50);
-            v->phaseSweep = FREQ_TO_INC(120);
-            v->pitchShift = 8;
-            v->ampShift = 11;
+            // v->phase = 0;
+            // v->phaseBase = FREQ_TO_INC(60);
+            // v->phaseSweep = FREQ_TO_INC(240);
+            // v->pitchShift = 9;
+            // v->ampShift = 12;
+            v->phase      = 0;
+            v->phaseBase  = FREQ_TO_INC(1000);   // TEST: short, high blip
+            v->phaseSweep = 0;
+            v->pitchShift = 9;
+            v->ampShift   = 8;                   // dies in about 80 ms
             break;
 
         // add other drum sounds here
@@ -60,7 +65,7 @@ void Synth_Trigger(uint8_t track, bool accent) {
 static int32_t Voice_Next(Voice *v) {
     v->phase += v->phaseBase + v->phaseSweep;
     v->phaseSweep -= v->phaseSweep >> v->pitchShift;
-    v->amp -= (v->amp >> v->pitchShift) + 1;
+    v->amp -= (v->amp >> v->ampShift) + 1;
 
     if (v->amp < AMP_OFF) {
         v->active = false;

@@ -37,9 +37,9 @@
 
 /********************************Public Functions***********************************/
 
-void MutimodDAC_Init(void);
-void MutimodDAC_Write(uint32_t reg_address, uint32_t data);
-uint32_t MutimodDAC_Read(uint32_t reg_address);
+void MultimodDAC_Init(void);
+void MultimodDAC_Write(uint32_t reg_address, uint32_t data);
+uint32_t MultimodDAC_Read(uint32_t reg_address);
 
 /********************************Public Functions***********************************/
 
