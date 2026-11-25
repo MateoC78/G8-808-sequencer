@@ -2,7 +2,6 @@
 
 
 #include "../synth.h"
-#include "../audio.h"
 
 #define FREQ_TO_INC(hz)     ((uint32_t)(hz) * (uint32_t)(4294967296.0 / SAMPLE_RATE_HZ))
 
@@ -41,16 +40,11 @@ void Synth_Trigger(uint8_t track, bool accent) {
     switch (track) {
         case TRACK_KICK:
             // sine wave starting at 170 Hz and falls to 50 Hz
-            // v->phase = 0;
-            // v->phaseBase = FREQ_TO_INC(60);
-            // v->phaseSweep = FREQ_TO_INC(240);
-            // v->pitchShift = 9;
-            // v->ampShift = 12;
-            v->phase      = 0;
-            v->phaseBase  = FREQ_TO_INC(1000);   // TEST: short, high blip
-            v->phaseSweep = 0;
-            v->pitchShift = 9;
-            v->ampShift   = 8;                   // dies in about 80 ms
+            v->phase = 0;
+            v->phaseBase = FREQ_TO_INC(30);
+            v->phaseSweep = FREQ_TO_INC(120);
+            v->pitchShift = 8;
+            v->ampShift = 11;
             break;
 
         // add other drum sounds here

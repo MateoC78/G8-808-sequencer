@@ -8,7 +8,6 @@
 
 #include "./MultimodDrivers/multimod.h"
 #include "./G8-808/ui.h"
-#include "./G8-808/audio.h"
 
 #include "inc/hw_memmap.h"
 #include "driverlib/timer.h"
@@ -63,7 +62,7 @@ void Mix_Thread(void) {
     uint8_t i, j;
 
     Synth_Init();
-    Audio_Start();
+    TimerEnable(TIMER1_BASE, TIMER_A);
 
     while (1) {
         G8RTOS_WaitSemaphore(&sem_Mix);     // a half just finished playing
@@ -93,9 +92,7 @@ void Mix_Thread(void) {
                 }
             }
             // mix, scale and clip voices to 12 bits
-            static uint16_t testCount = 0;
-            int32_t sample = ((testCount++ >> 3) & 1) ? DAC_MID + 800 : DAC_MID - 800;
-            //int32_t sample = DAC_MID + ((Synth_Next() * MASTER_VOLUME) >> 8);
+            int32_t sample = DAC_MID + ((Synth_Next() * MASTER_VOLUME) >> 8);
             if (sample < 0) sample = 0;
             if (sample > 4095) sample = 4095;
             out[i] = (uint16_t)sample;
@@ -130,6 +127,7 @@ void UI_Thread(void) {
                 if (!seq.playing) UI_DrawPlayhead(-1);
                 break;
             case UI_PATTERN:
+                for (t = 0; t < NUM_TRACKS; t++) UI_DrawTrack(t, pattern.steps[t], pattern.accent[t]); 
                 break;
         }
 
@@ -205,7 +203,7 @@ void Button_Handler() {
 void Sample_Handler() {
     TimerIntClear(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
 
-    Audio_DACWrite(audioBuf[playHalf][playIndex]);
+    MultimodDAC_Write(DAC_OUT_REG, audioBuf[playHalf][playIndex]);
 
     if (++playIndex >= BLOCK_SIZE) {
         playIndex = 0;

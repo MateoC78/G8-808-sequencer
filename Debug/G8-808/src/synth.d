@@ -13,7 +13,6 @@ G8-808/src/synth.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/inc
 G8-808/src/synth.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/machine/_stdint.h
 G8-808/src/synth.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/sys/_stdint.h
 G8-808/src/synth.obj: C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdbool.h
-G8-808/src/synth.obj: ../G8-808/audio.h
 
 ../G8-808/src/synth.c:
 
@@ -40,6 +39,4 @@ C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/machine/_stdint.h
 C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/sys/_stdint.h:
 
 C:/ti/ccs1281/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include/stdbool.h:
-
-../G8-808/audio.h:
 

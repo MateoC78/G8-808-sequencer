@@ -25,6 +25,7 @@ static void Multimod_Init() {
     JOYSTICK_Init();
     MultimodButtons_Init();
     PCA9956b_Init();    //multimod LED matrix
+    MultimodDAC_Init();
     ST7789_Init();
 }
 

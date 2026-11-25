@@ -28,7 +28,7 @@
 #define BPM_MAX             200
 #define BPM_DEFAULT         120
 #define DAC_MID             2048
-#define MASTER_VOLUME       220
+#define MASTER_VOLUME       256
 
 // UI message macros
 #define UI_MSG(type, value) (((uint32_t)(type) << 8) | (uint16_t)(value))

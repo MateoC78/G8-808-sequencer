@@ -47,7 +47,6 @@ threads.obj: ../MultimodDrivers/multimod_PCA9956B.h
 threads.obj: ../MultimodDrivers/multimod_dac.h
 threads.obj: ../MultimodDrivers/multimod_PCA9555.h
 threads.obj: ../G8-808/ui.h
-threads.obj: ../G8-808/audio.h
 threads.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/timer.h
 threads.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/adc.h
 
@@ -144,8 +143,6 @@ C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ssi.h:
 ../MultimodDrivers/multimod_PCA9555.h:
 
 ../G8-808/ui.h:
-
-../G8-808/audio.h:
 
 C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/timer.h:
 

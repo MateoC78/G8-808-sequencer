@@ -88,7 +88,7 @@ void UI_DrawPlayhead(int8_t step) {
 }
 
 void UI_DrawStatus(bool playing, uint16_t bpm, uint32_t underruns) {
-    UI_Text(184, 10, playing ? "PLAY" : "STOP", 3, playing ? UI_GREEN : UI_RED, UI_BLACK);
+    UI_Text(90, 40, playing ? "PLAY" : "STOP", 3, playing ? UI_GREEN : UI_RED, UI_BLACK);
     UI_Number(40, 40, bpm, 3, 2, UI_WHITE, UI_BLACK);
     UI_Number(196, 40, underruns, 4, 2, underruns ? UI_RED : UI_WHITE, UI_BLACK);
 }
@@ -96,7 +96,7 @@ void UI_DrawStatus(bool playing, uint16_t bpm, uint32_t underruns) {
 void UI_DrawScreen(void) {
     uint8_t t, beat;
     ST7789_Fill(UI_BLACK);
-    UI_Text(8, 6, "G8-808", 4, UI_ORANGE, UI_BLACK);
+    //UI_Text(8, 6, "G8-808", 2, UI_ORANGE, UI_BLACK);
     UI_Text(8, 40, "BPM", 2, UI_GRAY, UI_BLACK);
     UI_Text(156, 40, "XRUN", 2, UI_GRAY, UI_BLACK);
     UI_Rect(0, 60, SCREEN_W, 2, UI_DARKGRAY);

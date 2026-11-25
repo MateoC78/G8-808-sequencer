@@ -46,7 +46,6 @@ main.obj: ../MultimodDrivers/multimod_PCA9555.h
 main.obj: ../threads.h
 main.obj: ../G8-808/synth.h
 main.obj: C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/pin_map.h
-main.obj: ../G8-808/audio.h
 
 ../main.c:
 
@@ -139,6 +138,4 @@ C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/ssi.h:
 ../G8-808/synth.h:
 
 C:/ti/TivaWare_C_Series-2.2.0.295/driverlib/pin_map.h:
-
-../G8-808/audio.h:
 

@@ -2,13 +2,14 @@
 
 #include "G8RTOS/G8RTOS.h"
 #include "./MultimodDrivers/multimod.h"
+#include "./MultimodDrivers/multimod_DAC.h"
+
 
 #include <stdint.h>
 #include <stdbool.h>
 
 #include "./threads.h"
 #include <driverlib/sysctl.h>
-#include "./G8-808/audio.h"
 /************************************Includes***************************************/
 
 /*************************************Defines***************************************/
@@ -31,7 +32,7 @@ int main(void)
     // initialize the G8RTOS framework
     Multimod_Init();
     G8RTOS_Init();
-	Audio_Init();
+    seq_init();
 
     // clear the display before the bars are drawn
     ST7789_Fill(ST7789_BLACK);
@@ -45,12 +46,10 @@ int main(void)
     G8RTOS_InitSemaphore(&sem_Mix,0);
 
 
-    // FIFOs: one audio FIFO per Goertzel frequency, plus the display FIFO
+    // FIFOs:
     G8RTOS_InitFIFO(EDIT_FIFO);
     G8RTOS_InitFIFO(JOYSTICK_FIFO);
     G8RTOS_InitFIFO(UI_FIFO);
-
-	seq_init();
 
     // background threads (lower number = higher priority)
     G8RTOS_AddThread(Idle_Thread, 255, "idle");
@@ -59,10 +58,8 @@ int main(void)
     G8RTOS_AddThread(Read_Buttons, 5, "buttons");
 
     // add periodic and aperiodic events here (check multimod_mic.h and multimod_buttons.h for defines)
-    G8RTOS_Add_APeriodicEvent(Sample_Handler, 1, INT_TIMER1A);
+    G8RTOS_Add_APeriodicEvent(Sample_Handler, 1, DAC_INTERRUPT);
     G8RTOS_Add_APeriodicEvent(Button_Handler, 4, INT_GPIOE);   
-
-    // G8RTOS_Add_PeriodicEvent(Update_Volume, 50, 3);
 
 
 

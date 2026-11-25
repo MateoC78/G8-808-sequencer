@@ -2,7 +2,6 @@
 "./threads.obj"
 "./tm4c123gh6pm_startup_ccs.obj"
 "./uartstdio.obj"
-"./G8-808/src/audio.obj"
 "./G8-808/src/synth.obj"
 "./G8-808/src/ui.obj"
 "./G8RTOS/src/G8RTOS_CriticalSection.obj"

@@ -18,7 +18,7 @@
 #define DAC_WRITE_CMD 0x03
 #define DAC_READ_CMD 0x00
 #define DAC_OUT_REG 0x00
-#define DAC_SAMPLE_FREQUENCY_HZ 200
+#define DAC_SAMPLE_FREQUENCY_HZ 16000
 #define DAC_INTERRUPT INT_TIMER1A
 
 /*************************************Defines***************************************/
